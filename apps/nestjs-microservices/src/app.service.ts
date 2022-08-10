@@ -6,11 +6,11 @@ import { CreateUserRequest } from './dto/create-user-request.dto';
 
 @Injectable()
 export class AppService {
+  private readonly users: CreateUserRequest[] = [];
   constructor(
     @Inject('COMMUNICATION') private readonly communicationClient: ClientProxy,
+    @Inject('ANALYTICS') private readonly analyticsClient: ClientProxy,
   ) {}
-
-  private readonly users: CreateUserRequest[] = [];
 
   getHello(): string {
     return 'Hello World!';
@@ -22,5 +22,13 @@ export class AppService {
       'user_created',
       new CreateUserEvent(createUserRequest.email),
     );
+    this.analyticsClient.emit(
+      'user_created',
+      new CreateUserEvent(createUserRequest.email),
+    );
+  }
+
+  getAnalytics() {
+    return this.analyticsClient.send({ cmd: 'get_analytics' }, {});
   }
 }

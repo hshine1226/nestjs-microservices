@@ -1,0 +1,14 @@
+### Say Hello
+GET http://localhost:3000/ 
+
+### User Created
+POST http://localhost:3000/ 
+content-type: application/json
+
+{
+    "email": "test@valueofspace.com",
+    "password": "thisispassword"
+}
+
+### Get Analytics
+GET http://localhost:3000/analytics 

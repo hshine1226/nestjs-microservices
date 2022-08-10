@@ -1,4 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
+import { CreateUserEvent } from 'apps/nestjs-microservices/src/create-user.event';
 import { CommunicationService } from './communication.service';
 
 @Controller()
@@ -8,5 +10,10 @@ export class CommunicationController {
   @Get()
   getHello(): string {
     return this.communicationService.getHello();
+  }
+
+  @EventPattern('user_created')
+  handleUserCreated(data: CreateUserEvent) {
+    this.communicationService.handleUserCreated(data);
   }
 }
